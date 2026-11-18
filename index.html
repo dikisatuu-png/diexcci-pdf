@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10111b">
+  <meta name="description" content="DIEXCCI PDF — free online PDF tools. Merge, split, rotate and manage PDF files.">
+  <title>DIEXCCI PDF — Your PDF workflow, simplified</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="DIEXCCI PDF home">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.8h8l4.5 4.5v13.9H6z"/><path d="M14 2.8v5h4.5M8.8 13h6.5M8.8 16.5h6.5"/></svg></span>
+      <span>DIEXCCI <b>PDF</b></span>
+    </a>
+    <nav class="nav-links"><a href="#tools">PDF Tools</a><a href="#how">How it works</a><a href="#privacy">Privacy</a></nav>
+    <div class="nav-actions">
+      <span id="account-label" class="account-label">Guest mode</span>
+      <button id="auth-open" class="button button-quiet">Sign in</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse"></span> FREE ONLINE PDF TOOLS</div>
+      <h1>Your PDF workflow,<br><span>simplified.</span></h1>
+      <p class="hero-copy">Everything you need to manage PDF documents. Simple, fast, and designed to keep your files private.</p>
+      <div class="hero-actions"><a class="button button-primary" href="#tools">Explore PDF tools <span>↗</span></a><span class="no-account"><span class="check">✓</span> No account required</span></div>
+      <div class="hero-orbit orbit-a"></div><div class="hero-orbit orbit-b"></div>
+      <div class="hero-doc"><div class="doc-icon">PDF</div><div class="doc-lines"><i></i><i></i><i></i></div><span class="doc-spark">✦</span></div>
+    </section>
+
+    <section class="trust-row" id="privacy">
+      <div><span class="trust-icon">◈</span><span><b>Private by design</b><small>Files processed in your browser</small></span></div>
+      <div><span class="trust-icon">ϟ</span><span><b>Fast & simple</b><small>No complicated setup</small></span></div>
+      <div><span class="trust-icon">∞</span><span><b>Free to use</b><small>Guest access available</small></span></div>
+    </section>
+
+    <section class="tools-section" id="tools">
+      <div class="section-heading"><div><div class="eyebrow">YOUR WORKSPACE</div><h2>All the tools you need.</h2><p>Choose a tool to get started. Your original files stay on your device.</p></div><span class="tool-count">04 TOOLS</span></div>
+      <div class="tool-grid">
+        <button class="tool-card active" data-tool="merge"><span class="tool-icon purple">▤</span><span class="tool-title">Merge PDF</span><span class="tool-desc">Combine multiple PDF files into one document.</span><span class="tool-arrow">↗</span></button>
+        <button class="tool-card" data-tool="split"><span class="tool-icon blue">✂</span><span class="tool-title">Split PDF</span><span class="tool-desc">Extract a page range into a new PDF file.</span><span class="tool-arrow">↗</span></button>
+        <button class="tool-card" data-tool="rotate"><span class="tool-icon orange">↻</span><span class="tool-title">Rotate PDF</span><span class="tool-desc">Rotate every page in your PDF document.</span><span class="tool-arrow">↗</span></button>
+        <button class="tool-card" data-tool="compress"><span class="tool-icon green">⌁</span><span class="tool-title">Optimize PDF</span><span class="tool-desc">Re-save a PDF with optimized object streams.</span><span class="tool-arrow">↗</span></button>
+      </div>
+    </section>
+
+    <section class="workspace-section" id="workspace">
+      <div class="workspace-head"><div><div class="eyebrow">PDF WORKSPACE</div><h2 id="workspace-title">Merge PDF files</h2><p id="workspace-subtitle">Combine your documents in the order you choose.</p></div><span class="secure-pill"><span>●</span> LOCAL PROCESSING</span></div>
+      <div class="workspace-panel">
+        <div class="dropzone" id="dropzone">
+          <input id="file-input" type="file" accept="application/pdf,.pdf" multiple hidden>
+          <div class="upload-symbol"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 16.5v3h16v-3"/></svg></div>
+          <h3>Drop your PDF files here</h3><p>or <button id="browse-files" class="text-button">browse files</button> from your device</p>
+          <small>PDF files only · Maximum 25 MB per file (recommended)</small>
+        </div>
+        <div id="file-list" class="file-list" aria-live="polite"></div>
+        <div id="tool-options" class="tool-options hidden">
+          <label id="range-label" for="page-range">Pages to extract <span>Example: 1-3, 5</span></label>
+          <input id="page-range" type="text" placeholder="e.g. 1-3, 5" autocomplete="off">
+          <label id="rotation-label" class="hidden" for="rotation">Rotation angle</label>
+          <select id="rotation" class="hidden"><option value="90">90° clockwise</option><option value="180">180°</option><option value="270">270° clockwise</option></select>
+          <p id="option-note" class="option-note"></p>
+        </div>
+        <div class="workspace-footer"><div id="file-summary" class="file-summary">No files selected</div><button id="process-button" class="button button-primary" disabled>Choose PDF files <span>→</span></button></div>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </div>
+      <p class="workspace-note">🔒 Your PDF files are processed locally in this browser. They are not uploaded to DIEXCCI PDF.</p>
+    </section>
+
+    <section class="how-section" id="how"><div class="eyebrow">THREE SIMPLE STEPS</div><h2>Less hassle. More done.</h2><div class="steps"><div><span>01</span><h3>Choose a tool</h3><p>Select the PDF action you need.</p></div><div><span>02</span><h3>Add your files</h3><p>Select documents from your device.</p></div><div><span>03</span><h3>Download result</h3><p>Your processed PDF is ready to save.</p></div></div></section>
+  </main>
+
+  <footer><a class="brand" href="#"><span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M6 2.8h8l4.5 4.5v13.9H6z"/><path d="M14 2.8v5h4.5M8.8 13h6.5M8.8 16.5h6.5"/></svg></span><span>DIEXCCI <b>PDF</b></span></a><span>© <span id="year"></span> DIEXCCI PDF. Built for simpler document workflows.</span><span class="footer-status"><i></i> All systems ready</span></footer>
+
+  <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close">×</button><div class="eyebrow">YOUR DIEXCCI ACCOUNT</div><h2 id="auth-title">Welcome back.</h2><p class="modal-copy">Sign in to keep a simple history of your PDF activity. You can also continue as a guest.</p>
+      <div class="auth-tabs"><button class="auth-tab selected" data-mode="login">Sign in</button><button class="auth-tab" data-mode="signup">Create account</button></div>
+      <form id="auth-form"><label for="auth-email">Email address</label><input id="auth-email" type="email" placeholder="you@example.com" required><label for="auth-password">Password</label><input id="auth-password" type="password" placeholder="At least 6 characters" minlength="6" required><button id="auth-submit" class="button button-primary full-width" type="submit">Sign in <span>→</span></button></form>
+      <p id="auth-message" class="auth-message" aria-live="polite"></p><p class="auth-foot">PDF tools remain free to use without an account.</p>
+      <button id="signout-button" class="button button-quiet full-width hidden">Sign out</button>
+    </div>
+  </div>
+</body>
+</html>
